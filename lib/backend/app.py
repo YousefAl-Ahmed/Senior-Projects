@@ -3,22 +3,33 @@ import energy_analysis as ea
 
 app = Flask(__name__)
 
-@app.route('/load_data', methods=['POST'])
+
+
+
+@app.route('/load_data', methods=['GET','POST'])
 def load_data():
     try:
         filepath = request.json['filepath']
+
         data = ea.load_and_process_data(filepath)
+        predict_total_monthly_consumption_until_now = ea.predict_total_monthly_consumption_until_now(data)
         data_hourly = ea.aggregate_hourly(data)
-        total_daily_energy = ea.calculate_total_daily_energy(data_hourly)
-        total_daily_energy_all_devices = ea.calculate_total_daily_energy_all_devices(data_hourly)
-        data_daily_hourly, hourly_average = ea.calculate_energy_stats(data_hourly)
+        percentage_difference = ea.get_percentage_difference(data_hourly)
+        total_consumption_today = ea.get_total_consumption_today(data_hourly)
+        total_consumption_this_month = ea.get_total_consumption_this_month(data_hourly)
+        average_consumption_per_hour = ea.get_average_consumption_per_hour(data_hourly)
+        daily_average_consumption_for_last_week = ea.get_daily_average_consumption_for_last_week(data_hourly)
+        monthly_energy_consumption = ea.get_monthly_energy_consumption(data_hourly)
         outliers = ea.calculate_outliers(data_hourly)
         
         return jsonify({
-            'total_daily_energy': total_daily_energy.to_json(),
-            'total_daily_energy_all_devices': total_daily_energy_all_devices.to_json(),
-            'data_daily_hourly': data_daily_hourly.to_json(),
-            'hourly_average': hourly_average.to_json(),
+            'predict_total_monthly_consumption_until_now': predict_total_monthly_consumption_until_now,
+            'percentage_difference': percentage_difference,
+            'total_consumption_today': total_consumption_today,
+            'total_consumption_this_month': total_consumption_this_month,
+            'average_consumption_per_hour': average_consumption_per_hour,
+            'daily_average_consumption_for_last_week': daily_average_consumption_for_last_week,
+            'monthly_energy_consumption': monthly_energy_consumption,
             'outliers': outliers  # This should be JSON serializable
         })
     except Exception as e:

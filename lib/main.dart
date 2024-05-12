@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seniorproject/screens/dashboard.dart';
+import 'package:seniorproject/screens/test.dart';
 
 //main function
 void main() {
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const DashboardScreen(),
+      home: EnergyDataPage(),
     );
   }
 }
