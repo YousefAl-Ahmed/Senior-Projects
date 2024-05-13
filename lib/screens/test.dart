@@ -17,7 +17,7 @@ class _EnergyDataPageState extends State<EnergyDataPage> {
     });
     try {
       var data = await ApiService().loadData(
-          '/Users/yousefalahmed/FlutterProjects/seniorproject/seniorproject/lib/backend/energy_data.csv');
+          '/Users/yousefalahmed/Desktop/Senior Project/energy_data copy.csv');
       setState(() {
         _energyData = data;
       });
@@ -34,12 +34,12 @@ class _EnergyDataPageState extends State<EnergyDataPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Energy Data'),
+        title: const Text('Energy Data'),
       ),
       body: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: _isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : _energyData != null
                 ? SingleChildScrollView(
                     child: Column(
@@ -63,14 +63,14 @@ class _EnergyDataPageState extends State<EnergyDataPage> {
                       ],
                     ),
                   )
-                : Center(
+                : const Center(
                     child: Text('No data loaded.'),
                   ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _fetchData,
         tooltip: 'Load Data',
-        child: Icon(Icons.refresh),
+        child: const Icon(Icons.refresh),
       ),
     );
   }

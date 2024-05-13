@@ -1,4 +1,5 @@
-from flask import Flask, jsonify, request,make_response
+import time
+from flask import Flask, jsonify, request, make_response, Response
 import energy_analysis as ea
 from flask_cors import CORS
 
@@ -22,7 +23,7 @@ def load_data():
             return jsonify({'error': 'Bad Request: No filepath provided'}), 400
 
         filepath = request.json['filepath']
-
+    
         try:
             filepath = request.json['filepath']
             data = ea.load_and_process_data(filepath)
@@ -70,6 +71,25 @@ def forecast():
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+
+
+def stream_energy_data(filepath):
+    # Simulating a continuous data stream
+    while True:
+        data = ea.load_and_process_data(filepath)
+        data_hourly = ea.aggregate_hourly(data)
+        result = jsonify.dumps({
+            'total_consumption_today': ea.get_total_consumption_today(data_hourly)
+        })
+        yield f"data:{result}\n\n"
+        time.sleep(1)  # Stream update every second
+
+@app.route('/stream_data', methods=['GET'])
+def stream_data():
+    filepath = request.args.get('filepath')
+    return Response(stream_energy_data(filepath), mimetype='text/event-stream')
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
