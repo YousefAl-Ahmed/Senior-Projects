@@ -8,7 +8,7 @@ def load_and_process_data(filepath):
     return data
 
 def predict_total_monthly_consumption_until_now(data):
-    data_hourly = data.resample('H').mean() / 1000  # Convert from milliwatts to watts
+    data_hourly = data.resample('H').mean()# Convert from milliwatts to watts
 
     # Resample the hourly data to daily, then convert to kilowatts-hours for daily consumption
     data_daily = data_hourly.resample('D').sum() / 1000  # Convert watts to kilowatts
@@ -112,17 +112,16 @@ def get_average_consumption_per_hour(data):
 def get_daily_average_consumption_for_last_week(data):
 
     last_7_days = data.last('7D')
-
     # Resample by hour within each day and calculate mean
     hourly_means = last_7_days.resample('H').mean()
-
     # Calculate the daily average from the hourly averages
     daily_averages = hourly_means.resample('D').sum().sum(axis=1)
-
     # Formatting the results
-    daily_averages.index = daily_averages.index.strftime('%d/%m/%Y')
-    daily_averages = daily_averages.reset_index()
-    daily_averages.columns = ['Day', 'Average Consumption (W)']
+    daily_averages = daily_averages.map("{:.1f}".format)
+
+    daily_averages.index = daily_averages.index.strftime('%Y-%m-%d')
+    # daily_averages = daily_averages.reset_index()
+    # daily_averages.columns = ['Day', 'Average Consumption (W)']
 
     return daily_averages
 
@@ -136,8 +135,8 @@ def get_monthly_energy_consumption(data):
     monthly_percentage = (monthly_data.div(monthly_total, axis=0) * 100).round(2)
 
     # Format the data to show month and percentages
-    monthly_percentage.index = monthly_percentage.index.strftime('%m/%Y')
-    monthly_percentage = monthly_percentage.rename_axis("Month").reset_index()
+    monthly_percentage.index = monthly_percentage.index.strftime('%Y-%m')
+    monthly_percentage = monthly_percentage.rename_axis("Month")
 
     # Display the final dataframe
     return monthly_percentage

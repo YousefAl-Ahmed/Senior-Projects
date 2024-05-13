@@ -3,9 +3,9 @@ class EnergyData {
   double percentageDifference;
   double totalConsumptionToday;
   double totalConsumptionThisMonth;
-  double averageConsumptionPerHour;
-  double dailyAverageConsumptionForLastWeek;
-  double monthlyEnergyConsumption;
+  String averageConsumptionPerHour;
+  dynamic dailyAverageConsumptionForLastWeek;
+  dynamic monthlyEnergyConsumption;
   List<dynamic> outliers;
 
   EnergyData({
@@ -22,16 +22,14 @@ class EnergyData {
   factory EnergyData.fromJson(Map<String, dynamic> json) {
     return EnergyData(
       predictTotalMonthlyConsumptionUntilNow:
-          json['predict_total_monthly_consumption_until_now'].toDouble(),
-      percentageDifference: json['percentage_difference'].toDouble(),
-      totalConsumptionToday: json['total_consumption_today'].toDouble(),
-      totalConsumptionThisMonth:
-          json['total_consumption_this_month'].toDouble(),
-      averageConsumptionPerHour:
-          json['average_consumption_per_hour'].toDouble(),
+          json['predict_total_monthly_consumption_until_now'],
+      percentageDifference: json['percentage_difference'],
+      totalConsumptionToday: json['total_consumption_today'],
+      totalConsumptionThisMonth: json['total_consumption_this_month'],
+      averageConsumptionPerHour: json['average_consumption_per_hour'],
       dailyAverageConsumptionForLastWeek:
-          json['daily_average_consumption_for_last_week'].toDouble(),
-      monthlyEnergyConsumption: json['monthly_energy_consumption'].toDouble(),
+          json['daily_average_consumption_for_last_week'],
+      monthlyEnergyConsumption: json['monthly_energy_consumption'],
       outliers: json['outliers'],
     );
   }

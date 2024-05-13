@@ -16,8 +16,8 @@ class _EnergyDataPageState extends State<EnergyDataPage> {
       _isLoading = true;
     });
     try {
-      var data = await ApiService().loadData(
-          'C:/Users/Jawad/Documents/GitHub/Senior-Projects-1/lib/backend/energy_data.csv');
+      var data = await ApiService()
+          .loadData('C:/Users/Jawad/OneDrive/Desktop/energy_data.csv');
       setState(() {
         _energyData = data;
       });
