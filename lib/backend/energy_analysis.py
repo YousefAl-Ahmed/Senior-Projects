@@ -183,6 +183,7 @@ def calculate_outliers(data_hourly):
             device_data_hour = data_hourly[(data_hourly.index.hour == hour)][device]
             lower_limit, upper_limit = calculate_normal_range(consumption_per_hour, device, hour)
             threshold = 0.5 * max_consumption
+            
             for date, value in device_data_hour.items():
                 if value < (lower_limit - threshold) or value > (upper_limit + threshold):
                     outliers.append({

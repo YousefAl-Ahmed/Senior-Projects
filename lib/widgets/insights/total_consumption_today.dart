@@ -48,7 +48,7 @@ class TotalConsumptionToday extends ConsumerWidget {
                 ),
               ),
               Text(
-                'Cost: $costInSaudiRiyalFormatted SAR',
+                '$costInSaudiRiyalFormatted SAR',
                 style: const TextStyle(
                   fontSize: 20,
                   color: Colors.white,

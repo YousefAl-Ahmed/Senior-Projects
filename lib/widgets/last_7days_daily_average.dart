@@ -40,88 +40,90 @@ class Last7DaysDailyAverage extends ConsumerWidget {
             showingTooltipIndicators: [],
           );
         }).toList();
-        return Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: gridContainerColor,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: BarChart(
-              BarChartData(
-                maxY: //max value from the data
-                    data.values.reduce((value, element) =>
-                            value > element ? value : element) +
-                        20,
-
-                minY: 0, // Set minimum Y value
-                titlesData: FlTitlesData(
-                  show: true,
-                  topTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false)),
-                  rightTitles: const AxisTitles(
-                      sideTitles: SideTitles(showTitles: false)),
-                  leftTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      getTitlesWidget: (double value, TitleMeta meta) {
-                        // Format the titles to show only selected y-values
-                        if (value % 20 == 0) {
-                          return Text('${value.toInt()}W');
-                        }
-                        return const Text('');
-                      },
-                      reservedSize: 40,
-                    ),
-                  ),
-                  bottomTitles: AxisTitles(
-                    sideTitles: SideTitles(
-                      showTitles: true,
-                      getTitlesWidget: (double value, TitleMeta meta) {
-                        final date =
-                            DateTime.fromMillisecondsSinceEpoch(value.toInt());
-                        return Text('${date.month}/${date.day}',
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14));
-                      },
-                      reservedSize: 32,
-                    ),
-                  ),
-                ),
-                gridData: FlGridData(
-                  show: true,
-                  drawVerticalLine: true,
-                  getDrawingHorizontalLine: (value) {
-                    return const FlLine(
-                      color: Colors.grey,
-                      strokeWidth: 0.5,
-                    );
-                  },
-                  checkToShowHorizontalLine: (double value) {
-                    return value % 20 ==
-                        0; // Show horizontal grid lines at intervals of 20
-                  },
-                ),
-                borderData: FlBorderData(show: false),
-                barGroups: barGroups,
-                alignment: BarChartAlignment.spaceAround,
-                // barTouchData: BarTouchData(
-                //     enabled: false,
-                //     touchTooltipData: BarTouchTooltipData(
-                //         tooltipBgColor: Colors.blueGrey,
-                //         getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                //           final dateString =
-                //               DateTime.fromMillisecondsSinceEpoch(group.x)
-                //                   .toString()
-                //                   .substring(0, 10);
-                //           return BarTooltipItem(
-                //             '$dateString\n${rod.toY.toStringAsFixed(1)} kWh',
-                //             const TextStyle(color: Colors.yellow),
-                //           );
-                //         })),
+        return Stack(
+          children: [
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 52, 20, 20),
+              decoration: BoxDecoration(
+                color: gridContainerColor,
+                borderRadius: BorderRadius.circular(12),
               ),
-            ));
+              child: BarChart(
+                BarChartData(
+                  maxY: //max value from the data
+                      data.values.reduce((value, element) =>
+                              value > element ? value : element) +
+                          20,
+
+                  minY: 0, // Set minimum Y value
+                  titlesData: FlTitlesData(
+                    show: true,
+                    topTitles: const AxisTitles(
+                        sideTitles: SideTitles(showTitles: false)),
+                    rightTitles: const AxisTitles(
+                        sideTitles: SideTitles(showTitles: false)),
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        getTitlesWidget: (double value, TitleMeta meta) {
+                          // Format the titles to show only selected y-values
+                          if (value % 20 == 0) {
+                            return Text('${value.toInt()}W');
+                          }
+                          return const Text('');
+                        },
+                        reservedSize: 40,
+                      ),
+                    ),
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        getTitlesWidget: (double value, TitleMeta meta) {
+                          final date = DateTime.fromMillisecondsSinceEpoch(
+                              value.toInt());
+                          return Text('${date.month}/${date.day}',
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14));
+                        },
+                        reservedSize: 32,
+                      ),
+                    ),
+                  ),
+                  gridData: FlGridData(
+                    show: true,
+                    drawVerticalLine: true,
+                    getDrawingHorizontalLine: (value) {
+                      return const FlLine(
+                        color: Colors.grey,
+                        strokeWidth: 0.5,
+                      );
+                    },
+                    checkToShowHorizontalLine: (double value) {
+                      return value % 20 ==
+                          0; // Show horizontal grid lines at intervals of 20
+                    },
+                  ),
+                  borderData: FlBorderData(show: false),
+                  barGroups: barGroups,
+                  alignment: BarChartAlignment.spaceAround,
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                'Last 7 Days Daily Average',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ],
+        );
       },
     );
   }

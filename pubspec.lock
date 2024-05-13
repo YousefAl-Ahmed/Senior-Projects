@@ -180,7 +180,6 @@ packages:
     source: hosted
     version: "1.9.0"
   riverpod:
-    dependency: "direct main"
     dependency: transitive
     description:
       name: riverpod

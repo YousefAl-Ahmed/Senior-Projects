@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:seniorproject/widgets/insights_gridview_inner.dart';
+import 'package:flutter/widgets.dart';
 import 'package:seniorproject/widgets/line_graph.dart';
 import 'package:seniorproject/widgets/pie_chart.dart';
 import 'package:seniorproject/widgets/insights/insights_gridview_inner.dart';
@@ -41,23 +41,27 @@ class DashboardGrid extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                SizedBox(
+                  height: 12,
+                ),
                 InsightsGridviewInner(),
               ],
             ),
           ),
-          //Yousef
-          Last7DaysDailyAverage(),
-          //Jawad
+          const Last7DaysDailyAverage(),
           Container(
-            padding: const EdgeInsets.all(8),
-            color:
-                gridContainerColor, // Make sure this color is defined somewhere in your project
+            decoration: BoxDecoration(
+              color: gridContainerColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            padding: const EdgeInsets.all(16),
             child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                      bottom: 8), // Add some space below the header
+                  padding: EdgeInsets.only(
+                    bottom: 8,
+                  ), // Add some space below the header
                   child: Text(
                     'Average Electricity Consumption Per Hour',
                     style: TextStyle(
@@ -74,10 +78,28 @@ class DashboardGrid extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: gridContainerColor,
-            child: MonthlyConsumptionPieChart(),
+          Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: gridContainerColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.all(8),
+                child: const MonthlyConsumptionPieChart(),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'This Month Consumption by percentage',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),

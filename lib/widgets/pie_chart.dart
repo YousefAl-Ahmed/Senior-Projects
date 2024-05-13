@@ -7,7 +7,7 @@ import 'package:seniorproject/models/energy_data.dart';
 import 'package:seniorproject/providers.dart'; // Adjust path as necessary
 
 class MonthlyConsumptionPieChart extends ConsumerStatefulWidget {
-  const MonthlyConsumptionPieChart({Key? key}) : super(key: key);
+  const MonthlyConsumptionPieChart({super.key});
 
   @override
   _MonthlyConsumptionPieChartState createState() =>
@@ -28,48 +28,47 @@ class _MonthlyConsumptionPieChartState
             data.monthlyEnergyConsumption); // Assuming it's a JSON string
         List<PieChartSectionData> sections = _createSections(jsonData);
 
-        return AspectRatio(
-          aspectRatio: 1.3,
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: PieChart(
-                  PieChartData(
-                    pieTouchData: PieTouchData(
-                      touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                        if (!event.isInterestedForInteractions ||
-                            pieTouchResponse == null ||
-                            pieTouchResponse.touchedSection == null) {
-                          setState(() {
-                            touchedIndex = -1; // Reset touch
-                          });
-                          return;
-                        }
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: _createIndicators(jsonData),
+              ),
+            ),
+            SizedBox(
+              width: 250,
+              child: PieChart(
+                PieChartData(
+                  pieTouchData: PieTouchData(
+                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                      if (!event.isInterestedForInteractions ||
+                          pieTouchResponse == null ||
+                          pieTouchResponse.touchedSection == null) {
                         setState(() {
-                          touchedIndex = pieTouchResponse
-                              .touchedSection!.touchedSectionIndex;
+                          touchedIndex = -1; // Reset touch
                         });
-                      },
-                    ),
-                    borderData: FlBorderData(show: false),
-                    sectionsSpace: 0,
-                    centerSpaceRadius: 40,
-                    sections: sections,
+                        return;
+                      }
+                      setState(() {
+                        touchedIndex = pieTouchResponse
+                            .touchedSection!.touchedSectionIndex;
+                      });
+                    },
                   ),
+                  borderData: FlBorderData(show: false),
+                  sectionsSpace: 0,
+                  centerSpaceRadius: 40,
+                  sections: sections,
                 ),
               ),
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: _createIndicators(jsonData),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         );
       },
       error: (error, stack) => Text('Error: $error'),
-      loading: () => const CircularProgressIndicator(),
+      loading: () => const Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -81,7 +80,7 @@ class _MonthlyConsumptionPieChartState
     return List.generate(devices.length, (index) {
       final isTouched = index == touchedIndex;
       final fontSize = isTouched ? 18.0 : 16.0;
-      final radius = isTouched ? 60.0 : 50.0;
+      final radius = isTouched ? 100.0 : 80.0;
 
       return PieChartSectionData(
         color: Colors.primaries[index % Colors.primaries.length],
@@ -91,8 +90,10 @@ class _MonthlyConsumptionPieChartState
         titleStyle: TextStyle(
           fontSize: fontSize,
           fontWeight: FontWeight.bold,
-          color: isTouched ? Colors.black : Colors.white,
-          shadows: const [Shadow(color: Colors.black, blurRadius: 3)],
+          color: Colors.white,
+          shadows: const [
+            Shadow(color: Colors.black, blurRadius: 3),
+          ],
         ),
       );
     });

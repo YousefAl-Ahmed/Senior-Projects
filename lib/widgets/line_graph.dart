@@ -7,12 +7,12 @@ import 'dart:math' as math;
 import 'package:seniorproject/providers.dart';
 
 class LastSixHoursChart extends ConsumerWidget {
-  const LastSixHoursChart({Key? key}) : super(key: key);
+  const LastSixHoursChart({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncEnergyData = ref.watch(energyDataProvider);
-    final Color lineColor = const Color(0xff172E3C);
+    const Color lineColor = Color(0xff172E3C);
 
     return asyncEnergyData.when(
       data: (EnergyData data) {
@@ -26,11 +26,11 @@ class LastSixHoursChart extends ConsumerWidget {
         maxY = (maxY.ceil() + 1).toDouble();
 
         return Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(16),
           child: LineChart(LineChartData(
             minY: minY,
             maxY: maxY,
-            gridData: FlGridData(show: true),
+            gridData: const FlGridData(show: true),
             titlesData: FlTitlesData(
               show: true,
               bottomTitles: AxisTitles(
@@ -50,8 +50,9 @@ class LastSixHoursChart extends ConsumerWidget {
                 ),
               ),
               rightTitles:
-                  AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              topTitles:
+                  const AxisTitles(sideTitles: SideTitles(showTitles: false)),
             ),
             borderData: FlBorderData(show: true),
             lineBarsData: [
@@ -61,7 +62,7 @@ class LastSixHoursChart extends ConsumerWidget {
                 color: lineColor,
                 barWidth: 5,
                 isStrokeCapRound: true,
-                dotData: FlDotData(show: false),
+                dotData: const FlDotData(show: false),
                 belowBarData:
                     BarAreaData(show: true, color: lineColor.withOpacity(0.3)),
               ),
@@ -70,7 +71,7 @@ class LastSixHoursChart extends ConsumerWidget {
         );
       },
       error: (error, stack) => Text('Error: $error'),
-      loading: () => const CircularProgressIndicator(),
+      loading: () => const Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -78,7 +79,7 @@ class LastSixHoursChart extends ConsumerWidget {
     const style = TextStyle(
       color: Color(0xff68737d),
       fontWeight: FontWeight.bold,
-      fontSize: 16,
+      fontSize: 14,
     );
     return Padding(
       padding: const EdgeInsets.only(top: 10),
