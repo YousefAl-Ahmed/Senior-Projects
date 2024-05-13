@@ -1,4 +1,5 @@
-import 'dart:convert'; // Import for jsonDecode
+
+import 'dart:convert';
 
 class EnergyData {
   double predictTotalMonthlyConsumptionUntilNow;
@@ -6,7 +7,7 @@ class EnergyData {
   double totalConsumptionToday;
   double totalConsumptionThisMonth;
   Map<String, double> averageConsumptionPerHour;
-  dynamic dailyAverageConsumptionForLastWeek;
+  Map<String, double> dailyAverageConsumptionForLastWeek;
   dynamic monthlyEnergyConsumption;
   List<dynamic> outliers;
 
@@ -31,8 +32,10 @@ class EnergyData {
       averageConsumptionPerHour: Map<String, double>.from(
           (jsonDecode(json['average_consumption_per_hour']) as Map).map(
               (key, value) => MapEntry(key, double.parse(value.toString())))),
-      dailyAverageConsumptionForLastWeek:
-          json['daily_average_consumption_for_last_week'],
+    
+      dailyAverageConsumptionForLastWeek: Map<String, double>.from((jsonDecode(
+              json['daily_average_consumption_for_last_week']) as Map)
+          .map((key, value) => MapEntry(key, double.parse(value.toString())))),
       monthlyEnergyConsumption: json['monthly_energy_consumption'],
       outliers: json['outliers'],
     );

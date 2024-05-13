@@ -181,6 +181,7 @@ packages:
     version: "1.9.0"
   riverpod:
     dependency: "direct main"
+    dependency: transitive
     description:
       name: riverpod
       sha256: f21b32ffd26a36555e501b04f4a5dca43ed59e16343f1a30c13632b2351dfa4d

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:seniorproject/widgets/insights_gridview_inner.dart';
 import 'package:seniorproject/widgets/line_graph.dart';
 import 'package:seniorproject/widgets/pie_chart.dart';
+import 'package:seniorproject/widgets/insights/insights_gridview_inner.dart';
+import 'package:seniorproject/widgets/last_7days_daily_average.dart';
 
 class DashboardGrid extends StatelessWidget {
   const DashboardGrid({
@@ -29,14 +31,23 @@ class DashboardGrid extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             padding: const EdgeInsets.all(8),
-            child: const InsightsGridviewInner(),
+            child: const Column(
+              children: [
+                Text(
+                  'Insights',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                InsightsGridviewInner(),
+              ],
+            ),
           ),
-          Container(
-            padding: const EdgeInsets.all(8),
-            color: gridContainerColor,
-            child:
-                const Text('Monthly average', style: TextStyle(fontSize: 40)),
-          ),
+          //Yousef
+          Last7DaysDailyAverage(),
+          //Jawad
           Container(
             padding: const EdgeInsets.all(8),
             color:

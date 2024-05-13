@@ -4,5 +4,6 @@ import 'package:seniorproject/models/energy_data.dart';
 
 final energyDataProvider = FutureProvider<EnergyData>((ref) async {
   ApiService apiService = ApiService();
-  return apiService.loadData('C:/Users/Jawad/OneDrive/Desktop/energy_data.csv');
+  return apiService.loadData(
+      "/Users/yousefalahmed/FlutterProjects/seniorproject/seniorproject/lib/backend/energy_data.csv");
 });
