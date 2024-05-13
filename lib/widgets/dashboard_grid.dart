@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:seniorproject/widgets/insights_gridview_inner.dart';
+import 'package:seniorproject/widgets/line_graph.dart';
+import 'package:seniorproject/widgets/pie_chart.dart';
 
 class DashboardGrid extends StatelessWidget {
   const DashboardGrid({
@@ -37,13 +39,34 @@ class DashboardGrid extends StatelessWidget {
           ),
           Container(
             padding: const EdgeInsets.all(8),
-            color: gridContainerColor,
-            child: const Text('Hourly average', style: TextStyle(fontSize: 40)),
+            color:
+                gridContainerColor, // Make sure this color is defined somewhere in your project
+            child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      bottom: 8), // Add some space below the header
+                  child: Text(
+                    'Average Electricity Consumption Per Hour',
+                    style: TextStyle(
+                      fontSize: 18, // Adjust font size as needed
+                      fontWeight: FontWeight.bold,
+                      color:
+                          Colors.black, // Adjust the color to fit your design
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: LastSixHoursChart(),
+                ),
+              ],
+            ),
           ),
           Container(
             padding: const EdgeInsets.all(8),
             color: gridContainerColor,
-            child: const Text('Pie chart', style: TextStyle(fontSize: 40)),
+            child: MonthlyConsumptionPieChart(),
           ),
         ],
       ),

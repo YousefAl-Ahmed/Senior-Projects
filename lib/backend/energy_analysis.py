@@ -103,7 +103,7 @@ def get_average_consumption_per_hour(data):
     # Sum the consumption for all devices for each hour
     Total_last_day_hourly_total = last_day_hourly_data.sum(axis=1)
     formatted_output = Total_last_day_hourly_total.map("{:.1f}".format)
-    formatted_output.index = formatted_output.index.strftime('%Y-%m-%d %H:%M')
+    formatted_output.index = formatted_output.index.strftime('%H:%M')
 
     # print("Total Hourly Energy Consumption for All Devices on the Last Day (in Watts):")
     return formatted_output

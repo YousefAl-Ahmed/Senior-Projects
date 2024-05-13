@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:seniorproject/screens/dashboard.dart';
 import 'package:seniorproject/screens/test.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //main function
 void main() {
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 //dummy app
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: EnergyDataPage(),
+      home: const DashboardScreen(),
     );
   }
 }
