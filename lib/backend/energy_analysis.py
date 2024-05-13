@@ -30,6 +30,9 @@ def predict_total_monthly_consumption_until_now(data):
         forecast = model_fit.get_forecast(steps=days_in_month)
         predicted_mean = forecast.predicted_mean
         total_monthly_consumption = predicted_mean.sum()  # Sum the daily predictions to get the monthly total
+        #show only 3 decimal places
+        
+
         return total_monthly_consumption
     
     # Model fitting and prediction for each device
@@ -81,6 +84,7 @@ def get_total_consumption_today(data):
     
     # Sum the total consumption across all devices
     total_consumption_all_devices = today_consumption_until_now.sum()
+    #show only 3 decimal places
     return total_consumption_all_devices
 
 def get_total_consumption_this_month(data):
@@ -92,7 +96,7 @@ def get_total_consumption_this_month(data):
 
     # Calculate the total consumption for the entire month by summing all daily totals
     total_monthly_consumption = daily_hourly_averages.sum(axis=1).sum()
-    return total_monthly_consumption
+    return total_monthly_consumption/1000
     
 def get_average_consumption_per_hour(data):
     last_date = data.index.max().normalize()
