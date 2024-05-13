@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 
 class EnergyData {
@@ -5,7 +6,7 @@ class EnergyData {
   double percentageDifference;
   double totalConsumptionToday;
   double totalConsumptionThisMonth;
-  String averageConsumptionPerHour;
+  Map<String, double> averageConsumptionPerHour;
   Map<String, double> dailyAverageConsumptionForLastWeek;
   dynamic monthlyEnergyConsumption;
   List<dynamic> outliers;
@@ -28,7 +29,10 @@ class EnergyData {
       percentageDifference: json['percentage_difference'],
       totalConsumptionToday: json['total_consumption_today'],
       totalConsumptionThisMonth: json['total_consumption_this_month'],
-      averageConsumptionPerHour: json['average_consumption_per_hour'],
+      averageConsumptionPerHour: Map<String, double>.from(
+          (jsonDecode(json['average_consumption_per_hour']) as Map).map(
+              (key, value) => MapEntry(key, double.parse(value.toString())))),
+    
       dailyAverageConsumptionForLastWeek: Map<String, double>.from((jsonDecode(
               json['daily_average_consumption_for_last_week']) as Map)
           .map((key, value) => MapEntry(key, double.parse(value.toString())))),
