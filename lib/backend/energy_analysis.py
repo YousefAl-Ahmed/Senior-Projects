@@ -9,6 +9,7 @@ def load_and_process_data(filepath):
 
 def predict_total_monthly_consumption_until_now(data):
     data_hourly = data.resample('H').mean()# Convert from milliwatts to watts
+    print(data_hourly)
 
     # Resample the hourly data to daily, then convert to kilowatts-hours for daily consumption
     data_daily = data_hourly.resample('D').sum() / 1000  # Convert watts to kilowatts
@@ -33,7 +34,7 @@ def predict_total_monthly_consumption_until_now(data):
         #show only 3 decimal places
         
 
-        return total_monthly_consumption
+        return -total_monthly_consumption
     
     # Model fitting and prediction for each device
     predictions = {}
@@ -54,21 +55,21 @@ def get_percentage_difference(data):
     hourly_means_recent_days = two_recent_days.resample('H').mean()
 
     # Calculate the daily average from the hourly averages for the two days
-    daily_averages_recent_days = hourly_means_recent_days.resample('D').mean().sum(axis=1)
+    daily_averages_recent_days = hourly_means_recent_days.resample('D').sum().sum(axis=1)
 
     # Calculate the percentage increase from yesterday to today
     if daily_averages_recent_days.size >= 2:
+        print(daily_averages_recent_days)
         yesterday_consumption = daily_averages_recent_days.iloc[-2]
         today_consumption = daily_averages_recent_days.iloc[-1]
+        print(yesterday_consumption)
+        print(today_consumption)
+
         percent_change = ((today_consumption - yesterday_consumption) / yesterday_consumption) * 100
         return percent_change
-    # result_message = f"You spent today {percent_change:.2f}% more than yesterday."
     else:
-        result_message = "Not enough data to compare two days."
-
-        return result_message,
-
-        # result_message = "Not enough data to compare two days."
+        return -100
+  
 
 
 def get_total_consumption_today(data):
@@ -165,7 +166,12 @@ def aggregate_hourly(data):
 
 
 def calculate_normal_range(consumption_per_hour, device, hour):
-    device_hourly_consumption = consumption_per_hour.loc[hour, device]
+    try:
+        device_hourly_consumption = consumption_per_hour.loc[hour, device]
+    except KeyError:
+        # print(f"No data available for device '{device}' at hour '{hour}'.")
+        return None, None  # Return None or a default value when data is missing
+
     q1 = device_hourly_consumption.quantile(0.25)
     q3 = device_hourly_consumption.quantile(0.75)
     iqr = q3 - q1
@@ -173,6 +179,7 @@ def calculate_normal_range(consumption_per_hour, device, hour):
     lower_limit = q1 - iqr_std
     upper_limit = q3 + iqr_std
     return lower_limit, upper_limit
+
 
 def calculate_outliers(data_hourly):
     outliers = []

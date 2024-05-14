@@ -1,11 +1,10 @@
-
 import 'dart:convert';
 
 class EnergyData {
-  double predictTotalMonthlyConsumptionUntilNow;
-  double percentageDifference;
-  double totalConsumptionToday;
-  double totalConsumptionThisMonth;
+  dynamic predictTotalMonthlyConsumptionUntilNow;
+  dynamic percentageDifference;
+  dynamic totalConsumptionToday;
+  dynamic totalConsumptionThisMonth;
   Map<String, double> averageConsumptionPerHour;
   Map<String, double> dailyAverageConsumptionForLastWeek;
   dynamic monthlyEnergyConsumption;
@@ -32,7 +31,6 @@ class EnergyData {
       averageConsumptionPerHour: Map<String, double>.from(
           (jsonDecode(json['average_consumption_per_hour']) as Map).map(
               (key, value) => MapEntry(key, double.parse(value.toString())))),
-    
       dailyAverageConsumptionForLastWeek: Map<String, double>.from((jsonDecode(
               json['daily_average_consumption_for_last_week']) as Map)
           .map((key, value) => MapEntry(key, double.parse(value.toString())))),

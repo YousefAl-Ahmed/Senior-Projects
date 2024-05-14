@@ -35,23 +35,33 @@ class YesterdayComparison extends ConsumerWidget {
                   color: Colors.white,
                 ),
               ),
-              energyData.percentageDifference > 0
-                  ? Text(
-                      '+ ${energyData.percentageDifference.toStringAsFixed(2)}%',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        color: Colors.red,
+              if (energyData.percentageDifference == -100)
+                const Text(
+                  'Not enough data to compare',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white,
+                  ),
+                )
+              else
+                energyData.percentageDifference > 0
+                    ? Text(
+                        '+ ${energyData.percentageDifference.toStringAsFixed(2)}%',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.red,
+                        ),
+                      )
+                    : Text(
+                        '${energyData.percentageDifference.toStringAsFixed(2)}% -',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.green,
+                        ),
                       ),
-                    )
-                  : Text(
-                      '${energyData.percentageDifference.toStringAsFixed(2)}% -',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        color: Colors.green,
-                      ),
-                    ),
               energyData.percentageDifference > 0
                   ? const Text(
                       'More than yesterday',

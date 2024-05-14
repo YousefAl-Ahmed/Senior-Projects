@@ -17,7 +17,7 @@ class _EnergyDataPageState extends State<EnergyDataPage> {
     });
     try {
       var data = await ApiService().loadData(
-          '/Users/yousefalahmed/Desktop/Senior Project/energy_data copy.csv');
+          '/Users/yousefalahmed/Desktop/Senior Project/realtime_power.csv');
       setState(() {
         _energyData = data;
       });
@@ -59,7 +59,7 @@ class _EnergyDataPageState extends State<EnergyDataPage> {
                             'Daily Average Consumption For Last Week: ${_energyData!.dailyAverageConsumptionForLastWeek}'),
                         Text(
                             'Monthly Energy Consumption: ${_energyData!.monthlyEnergyConsumption}'),
-                        Text('Outliers: ${_energyData!.outliers.join(", ")}'),
+                        // Text('Outliers: ${_energyData!.outliers.join(", ")}'),
                       ],
                     ),
                   )
