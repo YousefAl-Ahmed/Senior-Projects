@@ -1,5 +1,8 @@
 //dummy main page
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:seniorproject/screens/devices/device_1.dart';
+import 'package:seniorproject/services/device_on_off.dart';
 import 'package:seniorproject/widgets/alerts.dart';
 
 import '../widgets/dashboard_grid.dart';
@@ -35,13 +38,32 @@ class DashboardScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
           children: [
-            DashboardGrid(),
-            Alerts(),
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Device1()),
+                    );
+                  },
+                  child: const Text('Device 1'),
+                ),
+              ],
+            ),
+            const Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DashboardGrid(),
+                  Alerts(),
+                ],
+              ),
+            ),
           ],
         ),
       ),

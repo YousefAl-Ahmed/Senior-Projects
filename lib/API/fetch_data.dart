@@ -53,4 +53,76 @@ class ApiService {
       throw Exception('Error occurred: $e');
     }
   }
+
+  Future<Device> fetchDevice1Data() async {
+    try {
+      var response = await http.get(
+        Uri.parse("$baseUrl/device1"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode == 200) {
+        return Device.fromJson(jsonDecode(response.body));
+      } else {
+        throw Exception('Failed to load data: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error occurred: $e');
+    }
+  }
+
+  Future<Device> fetchDevice2Data() async {
+    try {
+      var response = await http.get(
+        Uri.parse("$baseUrl/device2"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode == 200) {
+        return Device.fromJson(jsonDecode(response.body));
+      } else {
+        throw Exception('Failed to load data: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error occurred: $e');
+    }
+  }
+
+  Future<Device> fetchDevice3Data() async {
+    try {
+      var response = await http.get(
+        Uri.parse("$baseUrl/device3"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode == 200) {
+        return Device.fromJson(jsonDecode(response.body));
+      } else {
+        throw Exception('Failed to load data: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error occurred: $e');
+    }
+  }
+
+  Future<Device> fetchDevice4Data() async {
+    try {
+      var response = await http.get(
+        Uri.parse("$baseUrl/device4"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode == 200) {
+        return Device.fromJson(jsonDecode(response.body));
+      } else {
+        throw Exception('Failed to load data: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error occurred: $e');
+    }
+  }
 }

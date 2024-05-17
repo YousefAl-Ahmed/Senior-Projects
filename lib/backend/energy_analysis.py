@@ -7,44 +7,65 @@ def load_and_process_data(filepath):
     data /= 1000  # Convert milliwatts to watts
     return data
 
-def predict_total_monthly_consumption_until_now(data):
-    data_hourly = data.resample('H').mean()# Convert from milliwatts to watts
-    print(data_hourly)
+# def predict_total_monthly_consumption_until_now(data):
+#     data_hourly = data.resample('H').mean()# Convert from milliwatts to watts
+#     print(data_hourly)
 
-    # Resample the hourly data to daily, then convert to kilowatts-hours for daily consumption
-    data_daily = data_hourly.resample('D').sum() / 1000  # Convert watts to kilowatts
+#     # Resample the hourly data to daily, then convert to kilowatts-hours for daily consumption
+#     data_daily = data_hourly.resample('D').sum() / 1000  # Convert watts to kilowatts
  
-# SARIMA model configuration
-    order = (1, 1, 1)
-    seasonal_order = (1, 1, 1, 7)  # weekly seasonality
+# # SARIMA model configuration
+#     order = (1, 1, 1)
+#     seasonal_order = (1, 1, 1, 7)  # weekly seasonality
     
-    # Fit the model
-    def fit_sarima(data, order, seasonal_order):
-        model = SARIMAX(data, order=order, seasonal_order=seasonal_order, enforce_stationarity=False, enforce_invertibility=False)
-        model_fit = model.fit(disp=False)
-        return model_fit
+#     # Fit the model
+#     def fit_sarima(data, order, seasonal_order):
+#         model = SARIMAX(data, order=order, seasonal_order=seasonal_order, enforce_stationarity=False, enforce_invertibility=False)
+#         model_fit = model.fit(disp=False)
+#         return model_fit
     
-    # Predict the total consumption for the month
-    def predict_monthly_consumption(data, model_fit):
-        # Number of days to forecast (assuming one week data and aiming for a month)
-        days_in_month = 30
-        forecast = model_fit.get_forecast(steps=days_in_month)
-        predicted_mean = forecast.predicted_mean
-        total_monthly_consumption = predicted_mean.sum()  # Sum the daily predictions to get the monthly total
-        #show only 3 decimal places
+#     # Predict the total consumption for the month
+#     def predict_monthly_consumption(data, model_fit):
+#         # Number of days to forecast (assuming one week data and aiming for a month)
+#         days_in_month = 30
+#         forecast = model_fit.get_forecast(steps=days_in_month)
+#         predicted_mean = forecast.predicted_mean
+#         total_monthly_consumption = predicted_mean.sum()  # Sum the daily predictions to get the monthly total
+#         #show only 3 decimal places
         
 
-        return -total_monthly_consumption
+#         return -total_monthly_consumption
     
-    # Model fitting and prediction for each device
-    predictions = {}
-    for device in data.columns:
-        model_fit = fit_sarima(data_daily[device], order, seasonal_order)
-        monthly_consumption = predict_monthly_consumption(data_daily[device], model_fit)
-        predictions[device] = monthly_consumption
+#     # Model fitting and prediction for each device
+#     predictions = {}
+#     for device in data.columns:
+#         model_fit = fit_sarima(data_daily[device], order, seasonal_order)
+#         monthly_consumption = predict_monthly_consumption(data_daily[device], model_fit)
+#         predictions[device] = monthly_consumption
     
-    prediction_of_all_devices = sum(predictions.values())
-    return prediction_of_all_devices
+#     prediction_of_all_devices = sum(predictions.values())
+#     return prediction_of_all_devices
+def predict_total_monthly_consumption_until_now(data):
+    # Calculate total consumption for the current month as we calculated before
+    current_month_data = data[data.index.month == data.index[-1].month]
+    daily_hourly_averages = current_month_data.resample('H').mean().resample('D').sum()
+    total_current_month_consumption = daily_hourly_averages.sum(axis=1).sum()
+    
+    # Average daily consumption
+    average_daily_consumption = total_current_month_consumption / daily_hourly_averages.shape[0]
+
+    # Calculate remaining days in the month
+    last_day_of_month = data.index[-1].to_period('M').to_timestamp(how='end')
+    remaining_days = (last_day_of_month - data.index[-1]).days
+
+    # Predict the total consumption for the remaining days
+    predicted_consumption_remaining_days = average_daily_consumption * remaining_days
+
+    # Total predicted consumption for the month
+    predicted_total_monthly_consumption = total_current_month_consumption + predicted_consumption_remaining_days
+
+    return predicted_total_monthly_consumption/1000
+
 
 
 def get_percentage_difference(data):
@@ -64,9 +85,15 @@ def get_percentage_difference(data):
         today_consumption = daily_averages_recent_days.iloc[-1]
         print(yesterday_consumption)
         print(today_consumption)
-
         percent_change = ((today_consumption - yesterday_consumption) / yesterday_consumption) * 100
-        return percent_change
+        if yesterday_consumption == 0:
+            return -100
+        else:
+            return percent_change
+        
+        
+
+       
     else:
         return -100
   
@@ -202,6 +229,184 @@ def calculate_outliers(data_hourly):
                         "upper_limit": upper_limit
                     })
     return outliers
-# def forecast_energy(data, device, hour_of_day):
-#     data_device_hour = data[[device]].iloc[hour_of_day::24]
-#     return predict_sarima(data_device_hour)
+
+
+def predict_total_monthly_consumption_until_now_each_device(data):
+    predictions = {}
+    for device in data.columns:
+        current_month_data = data[data.index.month == data.index[-1].month][device]
+        daily_hourly_averages = current_month_data.resample('H').mean().resample('D').sum()
+        total_current_month_consumption = daily_hourly_averages.sum()
+        
+        average_daily_consumption = total_current_month_consumption / daily_hourly_averages.shape[0]
+        last_day_of_month = data.index[-1].to_period('M').to_timestamp(how='end')
+        remaining_days = (last_day_of_month - data.index[-1]).days
+        
+        predicted_consumption_remaining_days = average_daily_consumption * remaining_days
+        predicted_total_monthly_consumption = total_current_month_consumption + predicted_consumption_remaining_days
+        
+        predictions[device] = predicted_total_monthly_consumption / 1000
+    return predictions
+
+def get_percentage_difference_each_device(data):
+    percentage_changes = {}
+    for device in data.columns:
+        two_recent_days = data[device].last('2D')
+        hourly_means_recent_days = two_recent_days.resample('H').mean()
+        daily_averages_recent_days = hourly_means_recent_days.resample('D').sum()
+
+        if daily_averages_recent_days.size >= 2:
+            yesterday_consumption = daily_averages_recent_days.iloc[-2]
+            today_consumption = daily_averages_recent_days.iloc[-1]
+            if yesterday_consumption == 0:
+                percentage_changes[device] = -100
+            else:
+                percent_change = ((today_consumption - yesterday_consumption) / yesterday_consumption) * 100
+                percentage_changes[device] = percent_change
+        else:
+            percentage_changes[device] = -100
+    return percentage_changes
+
+def get_total_consumption_today_each_device(data):
+    total_consumptions = {}
+    data_hourly = data.resample('H').mean()
+    today_date = data_hourly.index[-1].date()
+    current_hour = data_hourly.index[-1].hour
+    
+    for device in data.columns:
+        today_consumption = data_hourly.loc[str(today_date), device]
+        today_consumption_until_now = today_consumption[today_consumption.index.hour <= current_hour].sum()
+        total_consumptions[device] = today_consumption_until_now
+    return total_consumptions
+
+def get_total_consumption_this_month_each_device(data):
+    total_consumptions = {}
+    for device in data.columns:
+        last_month = data[data.index.month == data.index[-1].month][device]
+        daily_hourly_averages = last_month.resample('H').mean().resample('D').sum()
+        total_monthly_consumption = daily_hourly_averages.sum()
+        total_consumptions[device] = total_monthly_consumption / 1000
+    return total_consumptions
+
+def get_average_consumption_per_hour_each_device(data):
+    hourly_averages = {}
+    last_date = data.index.max().normalize()
+    
+    for device in data.columns:
+        last_day_hourly_data = data[last_date:last_date + pd.Timedelta(days=1)].resample('H')[device].mean()
+        last_day_hourly_data.index = last_day_hourly_data.index.strftime('%H:%M')
+        last_day_hourly_data = last_day_hourly_data.map("{:.1f}".format)
+        hourly_averages[device] = last_day_hourly_data
+    return hourly_averages
+
+
+
+def get_daily_average_consumption_for_last_week_each_device(data):
+    daily_averages = {}
+    last_7_days = data.last('7D')
+    
+    for device in data.columns:
+        hourly_means = last_7_days.resample('H')[device].mean()
+        daily_averages_device = hourly_means.resample('D').sum()
+        daily_averages[device] = daily_averages_device.map("{:.1f}".format)
+        daily_averages[device].index = daily_averages[device].index.strftime('%Y-%m-%d')
+    return daily_averages
+
+def get_monthly_energy_consumption_each_device(data):
+    monthly_percentages = {}
+    for device in data.columns:
+        monthly_data = data[device].resample('M').sum()
+        monthly_percentage = (monthly_data / monthly_data.sum() * 100).round(2)
+        monthly_percentage.index = monthly_percentage.index.strftime('%Y-%m')
+        monthly_percentage = monthly_percentage.rename_axis("Month")
+        monthly_percentages[device] = monthly_percentage
+    return monthly_percentages
+
+def aggregate_hourly(data):
+    return data.resample('H').mean()
+
+
+#Insights for each device
+#device 1
+def get_percentage_difference_device1(data):
+    return get_percentage_difference_each_device(data['Device 1'])
+
+def get_total_consumption_today_device1(data):
+    return get_total_consumption_today_each_device(data['Device 1'])
+
+def get_total_consumption_this_month_device1(data):
+    return get_total_consumption_this_month_each_device(data['Device 1'])
+
+def get_predict_total_monthly_consumption_until_now_device1(data):
+    return predict_total_monthly_consumption_until_now_each_device(data['Device 1'])
+
+
+#device 2
+def get_percentage_difference_device2(data):
+    return get_percentage_difference_each_device(data['Device 2'])
+
+def get_total_consumption_today_device2(data):
+    return get_total_consumption_today_each_device(data['Device 2'])
+
+def get_total_consumption_this_month_device2(data):
+    return get_total_consumption_this_month_each_device(data['Device 2'])
+
+def get_predict_total_monthly_consumption_until_now_device2(data):
+    return predict_total_monthly_consumption_until_now_each_device(data['Device 2'])
+
+
+
+#device 3
+def get_percentage_difference_device3(data):
+    return get_percentage_difference_each_device(data['Device 3'])
+
+def get_total_consumption_today_device3(data):
+    return get_total_consumption_today_each_device(data['Device 3'])
+
+def get_total_consumption_this_month_device3(data):
+    return get_total_consumption_this_month_each_device(data['Device 3'])
+
+def get_predict_total_monthly_consumption_until_now_device3(data):
+    return predict_total_monthly_consumption_until_now_each_device(data['Device 3'])
+
+
+
+
+#device 4
+def get_percentage_difference_device4(data):
+    return get_percentage_difference_each_device(data['Device 4'])
+
+def get_total_consumption_today_device4(data):
+    return get_total_consumption_today_each_device(data['Device 4'])
+
+def get_total_consumption_this_month_device4(data):
+    return get_total_consumption_this_month_each_device(data['Device 4'])
+
+def get_predict_total_monthly_consumption_until_now_device4(data):
+    return predict_total_monthly_consumption_until_now_each_device(data['Device 4'])
+
+#Daily average consumption for each device
+def get_daily_average_consumption_for_last_week_device1(data):
+    return get_daily_average_consumption_for_last_week_each_device(data['Device 1'])
+
+def get_daily_average_consumption_for_last_week_device2(data):
+    return get_daily_average_consumption_for_last_week_each_device(data['Device 2'])
+
+def get_daily_average_consumption_for_last_week_device3(data):
+    return get_daily_average_consumption_for_last_week_each_device(data['Device 3'])
+
+def get_daily_average_consumption_for_last_week_device4(data):
+    return get_daily_average_consumption_for_last_week_each_device(data['Device 4'])
+
+#hourly average consumption for each device
+def get_hourly_average_device1(data):
+    return get_average_consumption_per_hour_each_device(data['Device 1'])
+
+def get_hourly_average_device2(data):
+    return get_average_consumption_per_hour_each_device(data['Device 2'])
+
+def get_hourly_average_device3(data):
+    return get_average_consumption_per_hour_each_device(data['Device 3'])
+
+def get_hourly_average_device4(data):
+    return get_average_consumption_per_hour_each_device(data['Device 4'])

@@ -55,7 +55,7 @@ class YesterdayComparison extends ConsumerWidget {
                         ),
                       )
                     : Text(
-                        '${energyData.percentageDifference.toStringAsFixed(2)}% -',
+                        '${energyData.percentageDifference.toStringAsFixed(2)}%',
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 20,
