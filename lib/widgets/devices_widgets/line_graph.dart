@@ -6,9 +6,9 @@ import 'dart:math' as math;
 
 import 'package:seniorproject/providers.dart';
 
-class LastSixHoursChart extends ConsumerWidget {
-  final AsyncValue<EnergyData> data;
-  const LastSixHoursChart({
+class DeviceLastSixHoursChart extends ConsumerWidget {
+  final AsyncValue<Device> data;
+  const DeviceLastSixHoursChart({
     super.key,
     required this.data,
   });
@@ -18,7 +18,7 @@ class LastSixHoursChart extends ConsumerWidget {
     const Color lineColor = Color(0xff172E3C);
 
     return data.when(
-      data: (EnergyData data) {
+      data: (Device data) {
         List<FlSpot> spots = _createSpotsFromData(data);
         double minY = data.averageConsumptionPerHour.values
             .fold(double.infinity, math.min);
@@ -100,7 +100,7 @@ class LastSixHoursChart extends ConsumerWidget {
         style: style, textAlign: TextAlign.left);
   }
 
-  List<FlSpot> _createSpotsFromData(EnergyData data) {
+  List<FlSpot> _createSpotsFromData(Device data) {
     List<MapEntry<String, double>> entries =
         data.averageConsumptionPerHour.entries.toList();
     if (entries.length > 6) {

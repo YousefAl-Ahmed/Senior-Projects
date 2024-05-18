@@ -15,8 +15,8 @@ final energyDataProvider = StreamProvider<EnergyData>((ref) async* {
   await for (var _ in Stream.periodic(
     const Duration(seconds: 2),
   )) {
-    yield await apiService.loadData(
-        "/Users/yousefalahmed/Desktop/Senior Project/new_Week_Electricity_Consumption_Data.csv");
+    yield await apiService
+        .loadData("../backend/new_Week_Electricity_Consumption_Data.csv");
   }
 });
 final device1DataProvider = StreamProvider<Device>((ref) async* {

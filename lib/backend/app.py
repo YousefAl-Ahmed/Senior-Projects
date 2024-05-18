@@ -8,7 +8,7 @@ CORS(app)
 
 
 
-
+path = "C:/Users/Jawad/Documents/GitHub/Senior-Projects-1/lib/backend/new_Week_Electricity_Consumption_Data.csv"
 @app.route('/load_data', methods=['OPTIONS','POST'])
 def load_data():
     if request.method == 'OPTIONS':
@@ -56,7 +56,7 @@ def load_data():
 
             return jsonify({'error': str(e)}), 500
         
-@app.route('/device1', methods=['OPTIONS','POST'])
+@app.route('/device1', methods=['OPTIONS','POST','GET'])
 def device1():
     if request.method == 'OPTIONS':
         response = make_response()
@@ -69,10 +69,9 @@ def device1():
         if not request.json or 'filepath' not in request.json:
             return jsonify({'error': 'Bad Request: No filepath provided'}), 400
 
-        filepath = request.json['filepath']
+        filepath = path
     
         try:
-            filepath = request.json['filepath']
             data = ea.load_and_process_data(filepath)
             data_hourly = ea.aggregate_hourly(data)
             predict_total_monthly_consumption_until_now_1 = ea.get_predict_total_monthly_consumption_until_now_device1(data_hourly) # Assuming this returns a DataFrame
@@ -111,10 +110,9 @@ def device2():
         if not request.json or 'filepath' not in request.json:
             return jsonify({'error': 'Bad Request: No filepath provided'}), 400
 
-        filepath = request.json['filepath']
+        filepath = path
     
         try:
-            filepath = request.json['filepath']
             data = ea.load_and_process_data(filepath)
             data_hourly = ea.aggregate_hourly(data)
             predict_total_monthly_consumption_until_now_2 = ea.get_predict_total_monthly_consumption_until_now_device2(data_hourly) # Assuming this returns a DataFrame
@@ -153,10 +151,9 @@ def device3():
         if not request.json or 'filepath' not in request.json:
             return jsonify({'error': 'Bad Request: No filepath provided'}), 400
 
-        filepath = request.json['filepath']
+        filepath = path
     
         try:
-            filepath = request.json['filepath']
             data = ea.load_and_process_data(filepath)
             data_hourly = ea.aggregate_hourly(data)
             predict_total_monthly_consumption_until_now_3 = ea.get_predict_total_monthly_consumption_until_now_device3(data_hourly) # Assuming this returns a DataFrame
@@ -192,16 +189,13 @@ def device4():
         return response
     
     elif request.method == 'POST':
-        if not request.json or 'filepath' not in request.json:
-            return jsonify({'error': 'Bad Request: No filepath provided'}), 400
-
-        filepath = request.json['filepath']
+        
     
         try:
-            filepath = request.json['filepath']
+            filepath = path
             data = ea.load_and_process_data(filepath)
             data_hourly = ea.aggregate_hourly(data)
-            predict_total_monthly_consumption_until_now_4 = ea.get_predict_total_monthly_consumption_until_now_device4(data_hourly) # Assuming this returns a DataFrame
+            predict_total_monthly_consumption_until_now_4 = ea.get_predict_total_monthly_consumption_until_now_device4(data) # Assuming this returns a DataFrame
             percentage_difference_4 = ea.get_percentage_difference_device4(data_hourly)  # Adjust based on actual return type
             total_consumption_today_4 = ea.get_total_consumption_today_device4(data_hourly)  # Adjust based on actual return type
             total_consumption_this_month_4 = ea.get_total_consumption_this_month_device4(data_hourly)  # Adjust based on actual return type

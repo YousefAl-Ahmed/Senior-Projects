@@ -56,7 +56,7 @@ class ApiService {
 
   Future<Device> fetchDevice1Data() async {
     try {
-      var response = await http.get(
+      var response = await http.post(
         Uri.parse("$baseUrl/device1"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -74,7 +74,7 @@ class ApiService {
 
   Future<Device> fetchDevice2Data() async {
     try {
-      var response = await http.get(
+      var response = await http.post(
         Uri.parse("$baseUrl/device2"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -92,7 +92,7 @@ class ApiService {
 
   Future<Device> fetchDevice3Data() async {
     try {
-      var response = await http.get(
+      var response = await http.post(
         Uri.parse("$baseUrl/device3"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -110,7 +110,7 @@ class ApiService {
 
   Future<Device> fetchDevice4Data() async {
     try {
-      var response = await http.get(
+      var response = await http.post(
         Uri.parse("$baseUrl/device4"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',

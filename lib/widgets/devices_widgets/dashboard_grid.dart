@@ -3,21 +3,28 @@ import 'package:flutter/widgets.dart';
 import 'package:seniorproject/models/energy_data.dart';
 import 'package:seniorproject/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seniorproject/widgets/devices_widgets/devices_barchart.dart';
+import 'package:seniorproject/widgets/devices_widgets/insights_gridview_inner.dart';
+import 'package:seniorproject/widgets/devices_widgets/line_graph.dart';
+import 'package:seniorproject/widgets/devices_widgets/pie_chart.dart';
 
 import 'package:seniorproject/widgets/line_graph.dart';
 import 'package:seniorproject/widgets/pie_chart.dart';
-import 'package:seniorproject/widgets/insights/insights_gridview_inner.dart';
 import 'package:seniorproject/widgets/last_7days_daily_average.dart';
 
-class DashboardGrid extends ConsumerWidget {
-  final Last7DaysDailyAverage barChart;
-  final LastSixHoursChart lineGraph;
-  final MonthlyConsumptionPieChart pieChart;
-  const DashboardGrid({
+class DeviceDashboardGrid extends ConsumerWidget {
+  final AsyncValue<Device> data;
+
+  final DeviceLast7DaysDailyAverage barChart;
+  final DeviceLastSixHoursChart lineGraph;
+  // final DeviceMonthlyConsumptionPieChart pieChart;
+  const DeviceDashboardGrid({
     super.key,
     required this.barChart,
     required this.lineGraph,
-    required this.pieChart,
+    required this.data,
+
+    // required this.pieChart,
   });
 
   @override
@@ -41,7 +48,7 @@ class DashboardGrid extends ConsumerWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             padding: const EdgeInsets.all(8),
-            child: const Column(
+            child: Column(
               children: [
                 Text(
                   'Insights',
@@ -54,7 +61,7 @@ class DashboardGrid extends ConsumerWidget {
                 SizedBox(
                   height: 12,
                 ),
-                InsightsGridviewInner(),
+                DeviceInsightsGridviewInner(data: data),
               ],
             ),
           ),
@@ -94,7 +101,9 @@ class DashboardGrid extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   padding: const EdgeInsets.all(8),
-                  child: pieChart),
+                  child:
+                      // pieChart
+                      Text('Pie Chart')),
               const Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Text(

@@ -8,7 +8,7 @@ class EnergyDataPage extends StatefulWidget {
 }
 
 class _EnergyDataPageState extends State<EnergyDataPage> {
-  EnergyData? _energyData;
+  Device? _energyData;
   bool _isLoading = false;
 
   void _fetchData() async {
@@ -16,8 +16,7 @@ class _EnergyDataPageState extends State<EnergyDataPage> {
       _isLoading = true;
     });
     try {
-      var data = await ApiService().loadData(
-          '/Users/yousefalahmed/Desktop/Senior Project/realtime_power.csv');
+      var data = await ApiService().fetchDevice4Data();
       setState(() {
         _energyData = data;
       });
@@ -57,8 +56,8 @@ class _EnergyDataPageState extends State<EnergyDataPage> {
                             'Average Consumption Per Hour: ${_energyData!.averageConsumptionPerHour}'),
                         Text(
                             'Daily Average Consumption For Last Week: ${_energyData!.dailyAverageConsumptionForLastWeek}'),
-                        Text(
-                            'Monthly Energy Consumption: ${_energyData!.monthlyEnergyConsumption}'),
+                        // Text(
+                        // 'Monthly Energy Consumption: ${_energyData!.monthlyEnergyConsumption}'),
                         // Text('Outliers: ${_energyData!.outliers.join(", ")}'),
                       ],
                     ),

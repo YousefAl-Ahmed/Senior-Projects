@@ -80,11 +80,11 @@ def get_percentage_difference(data):
 
     # Calculate the percentage increase from yesterday to today
     if daily_averages_recent_days.size >= 2:
-        print(daily_averages_recent_days)
+        # print(daily_averages_recent_days)
         yesterday_consumption = daily_averages_recent_days.iloc[-2]
         today_consumption = daily_averages_recent_days.iloc[-1]
-        print(yesterday_consumption)
-        print(today_consumption)
+        # print(yesterday_consumption)
+        # print(today_consumption)
         percent_change = ((today_consumption - yesterday_consumption) / yesterday_consumption) * 100
         if yesterday_consumption == 0:
             return -100
@@ -374,16 +374,16 @@ def get_predict_total_monthly_consumption_until_now_device3(data):
 
 #device 4
 def get_percentage_difference_device4(data):
-    return get_percentage_difference_each_device(data['Device 4'])
+    return get_percentage_difference_each_device(data)['Device 4']
 
 def get_total_consumption_today_device4(data):
-    return get_total_consumption_today_each_device(data['Device 4'])
+    return get_total_consumption_today_each_device(data)['Device 4']
 
 def get_total_consumption_this_month_device4(data):
-    return get_total_consumption_this_month_each_device(data['Device 4'])
+    return get_total_consumption_this_month_each_device(data)['Device 4']
 
 def get_predict_total_monthly_consumption_until_now_device4(data):
-    return predict_total_monthly_consumption_until_now_each_device(data['Device 4'])
+    return predict_total_monthly_consumption_until_now_each_device(data)['Device 4']
 
 #Daily average consumption for each device
 def get_daily_average_consumption_for_last_week_device1(data):
@@ -396,7 +396,7 @@ def get_daily_average_consumption_for_last_week_device3(data):
     return get_daily_average_consumption_for_last_week_each_device(data['Device 3'])
 
 def get_daily_average_consumption_for_last_week_device4(data):
-    return get_daily_average_consumption_for_last_week_each_device(data['Device 4'])
+    return get_daily_average_consumption_for_last_week_each_device(data)['Device 4']
 
 #hourly average consumption for each device
 def get_hourly_average_device1(data):
@@ -409,4 +409,4 @@ def get_hourly_average_device3(data):
     return get_average_consumption_per_hour_each_device(data['Device 3'])
 
 def get_hourly_average_device4(data):
-    return get_average_consumption_per_hour_each_device(data['Device 4'])
+    return get_average_consumption_per_hour_each_device(data)['Device 4']

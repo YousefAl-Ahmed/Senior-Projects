@@ -6,31 +6,31 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:seniorproject/models/energy_data.dart';
 import 'package:seniorproject/providers.dart'; // Adjust path as necessary
 
-class MonthlyConsumptionPieChart extends ConsumerStatefulWidget {
-  final AsyncValue<EnergyData> data;
+class DeviceMonthlyConsumptionPieChart extends ConsumerStatefulWidget {
+  final AsyncValue<Device> data;
 
-  const MonthlyConsumptionPieChart({
+  const DeviceMonthlyConsumptionPieChart({
     super.key,
     required this.data,
   });
 
   @override
-  _MonthlyConsumptionPieChartState createState() =>
-      _MonthlyConsumptionPieChartState();
+  _DeviceMonthlyConsumptionPieChartState createState() =>
+      _DeviceMonthlyConsumptionPieChartState();
 }
 
-class _MonthlyConsumptionPieChartState
-    extends ConsumerState<MonthlyConsumptionPieChart> {
-  AsyncValue<EnergyData> get data => widget.data;
+class _DeviceMonthlyConsumptionPieChartState
+    extends ConsumerState<DeviceMonthlyConsumptionPieChart> {
+  AsyncValue<Device> get data => widget.data;
   int? touchedIndex;
 
   @override
   Widget build(BuildContext context) {
     return data.when(
       data: (data) {
-        var jsonData = json.decode(
-            data.monthlyEnergyConsumption); // Assuming it's a JSON string
-        List<PieChartSectionData> sections = _createSections(jsonData);
+        // var jsonData = json.decode(
+        // data.monthlyEnergyConsumption); // Assuming it's a JSON string
+        // List<PieChartSectionData> sections = _createSections(jsonData);
 
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -38,7 +38,7 @@ class _MonthlyConsumptionPieChartState
             Expanded(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: _createIndicators(jsonData),
+                // children: _createIndicators(data),
               ),
             ),
             SizedBox(
@@ -64,7 +64,7 @@ class _MonthlyConsumptionPieChartState
                   borderData: FlBorderData(show: false),
                   sectionsSpace: 0,
                   centerSpaceRadius: 40,
-                  sections: sections,
+                  // sections: sections,
                 ),
               ),
             ),

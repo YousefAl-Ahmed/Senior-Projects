@@ -152,105 +152,105 @@ print(f"Device 3: {device3_predicted_total_monthly_consumption}")
 print(f"Device 4: {device4_predicted_total_monthly_consumption}")
 
 
-device1_percentage_difference = get_percentage_difference(data)['Device 1'].round(2)
-device2_percentage_difference = get_percentage_difference(data)['Device 2'].round(2)
-device3_percentage_difference = get_percentage_difference(data)['Device 3'].round(2)
-device4_percentage_difference = get_percentage_difference(data)['Device 4'].round(2)
-print("Percentage Difference from Yesterday to Today:")
-print(f"Device 1: {device1_percentage_difference}%")
-print(f"Device 2: {device2_percentage_difference}%")
-print(f"Device 3: {device3_percentage_difference}%")
-print(f"Device 4: {device4_percentage_difference}%")
+# device1_percentage_difference = get_percentage_difference(data)['Device 1'].round(2)
+# device2_percentage_difference = get_percentage_difference(data)['Device 2'].round(2)
+# device3_percentage_difference = get_percentage_difference(data)['Device 3'].round(2)
+# device4_percentage_difference = get_percentage_difference(data)['Device 4'].round(2)
+# print("Percentage Difference from Yesterday to Today:")
+# print(f"Device 1: {device1_percentage_difference}%")
+# print(f"Device 2: {device2_percentage_difference}%")
+# print(f"Device 3: {device3_percentage_difference}%")
+# print(f"Device 4: {device4_percentage_difference}%")
 
-device1_total_consumption_today = get_total_consumption_today(data)['Device 1'].round(2)
-device2_total_consumption_today = get_total_consumption_today(data)['Device 2'].round(2)
-device3_total_consumption_today = get_total_consumption_today(data)['Device 3'].round(2)
-device4_total_consumption_today = get_total_consumption_today(data)['Device 4'].round(2)
-print("\nTotal Consumption Today (in Wh):")
-print(f"Device 1: {device1_total_consumption_today}")
-print(f"Device 2: {device2_total_consumption_today}")
-print(f"Device 3: {device3_total_consumption_today}")
-print(f"Device 4: {device4_total_consumption_today}")
-
-print("\nTotal Consumption This Month (in kWh):")
-device1_total_consumption_this_month = get_total_consumption_this_month(data)['Device 1'].round(2)
-device2_total_consumption_this_month = get_total_consumption_this_month(data)['Device 2'].round(2)
-device3_total_consumption_this_month = get_total_consumption_this_month(data)['Device 3'].round(2)
-device4_total_consumption_this_month = get_total_consumption_this_month(data)['Device 4'].round(2)
-print(f"Device 1: {device1_total_consumption_this_month}")
-print(f"Device 2: {device2_total_consumption_this_month}")
-print(f"Device 3: {device3_total_consumption_this_month}")
-print(f"Device 4: {device4_total_consumption_this_month}")
-
-print("\nAverage Consumption Per Hour:")
-#average consumption per hour for device 1
-device1_average_consumption_per_hour = get_average_consumption_per_hour(data)['Device 1']
-print("Device 1:")
-print(device1_average_consumption_per_hour)
-
-#average consumption per hour for device 2
-device2_average_consumption_per_hour = get_average_consumption_per_hour(data)['Device 2']
-print("\nDevice 2:")
-print(device2_average_consumption_per_hour)
-
-#average consumption per hour for device 3
-device3_average_consumption_per_hour = get_average_consumption_per_hour(data)['Device 3']
-print("\nDevice 3:")
-print(device3_average_consumption_per_hour)
-
-#average consumption per hour for device 4
-device4_average_consumption_per_hour = get_average_consumption_per_hour(data)['Device 4']
-print("\nDevice 4:")
-print(device4_average_consumption_per_hour)
-
-print("\nDaily Average Consumption for Last Week:")
-#daily average consumption for last week for device 1
-device1_daily_average_consumption_for_last_week = get_daily_average_consumption_for_last_week(data)['Device 1']
-print("Device 1:")
-print(device1_daily_average_consumption_for_last_week)
-
-#get_average_consumption_per_hour for device 1
-device1_hourly_averages = get_average_consumption_per_hour(data)['Device 1']
-print("Device 1:")
-print(device1_hourly_averages)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# print("Predicted Total Monthly Consumption Until Now (in kWh):")
-# print(predict_total_monthly_consumption_until_now(data))
-
-# print("\nPercentage Difference from Yesterday to Today:")
-# print(get_percentage_difference(data))
-
-# print("\nTotal Consumption Today (in kWh):")
-# print(get_total_consumption_today(data))
+# device1_total_consumption_today = get_total_consumption_today(data)['Device 1'].round(2)
+# device2_total_consumption_today = get_total_consumption_today(data)['Device 2'].round(2)
+# device3_total_consumption_today = get_total_consumption_today(data)['Device 3'].round(2)
+# device4_total_consumption_today = get_total_consumption_today(data)['Device 4'].round(2)
+# print("\nTotal Consumption Today (in Wh):")
+# print(f"Device 1: {device1_total_consumption_today}")
+# print(f"Device 2: {device2_total_consumption_today}")
+# print(f"Device 3: {device3_total_consumption_today}")
+# print(f"Device 4: {device4_total_consumption_today}")
 
 # print("\nTotal Consumption This Month (in kWh):")
-# print(get_total_consumption_this_month(data))
+# device1_total_consumption_this_month = get_total_consumption_this_month(data)['Device 1'].round(2)
+# device2_total_consumption_this_month = get_total_consumption_this_month(data)['Device 2'].round(2)
+# device3_total_consumption_this_month = get_total_consumption_this_month(data)['Device 3'].round(2)
+# device4_total_consumption_this_month = get_total_consumption_this_month(data)['Device 4'].round(2)
+# print(f"Device 1: {device1_total_consumption_this_month}")
+# print(f"Device 2: {device2_total_consumption_this_month}")
+# print(f"Device 3: {device3_total_consumption_this_month}")
+# print(f"Device 4: {device4_total_consumption_this_month}")
 
 # print("\nAverage Consumption Per Hour:")
-# print(get_average_consumption_per_hour(data))
+# #average consumption per hour for device 1
+# device1_average_consumption_per_hour = get_average_consumption_per_hour(data)['Device 1']
+# print("Device 1:")
+# print(device1_average_consumption_per_hour)
+
+# #average consumption per hour for device 2
+# device2_average_consumption_per_hour = get_average_consumption_per_hour(data)['Device 2']
+# print("\nDevice 2:")
+# print(device2_average_consumption_per_hour)
+
+# #average consumption per hour for device 3
+# device3_average_consumption_per_hour = get_average_consumption_per_hour(data)['Device 3']
+# print("\nDevice 3:")
+# print(device3_average_consumption_per_hour)
+
+# #average consumption per hour for device 4
+# device4_average_consumption_per_hour = get_average_consumption_per_hour(data)['Device 4']
+# print("\nDevice 4:")
+# print(device4_average_consumption_per_hour)
 
 # print("\nDaily Average Consumption for Last Week:")
-# print(get_daily_average_consumption_for_last_week(data))
+# #daily average consumption for last week for device 1
+# device1_daily_average_consumption_for_last_week = get_daily_average_consumption_for_last_week(data)['Device 1']
+# print("Device 1:")
+# print(device1_daily_average_consumption_for_last_week)
 
-# print("\nMonthly Energy Consumption (Percentage):")
-# print(get_monthly_energy_consumption(data))
+# #get_average_consumption_per_hour for device 1
+# device1_hourly_averages = get_average_consumption_per_hour(data)['Device 1']
+# print("Device 1:")
+# print(device1_hourly_averages)
 
-# print("\nAggregated Hourly Data:")
-# print(aggregate_hourly(data).head())
 
-# print("\nOutliers:")
-# print(calculate_outliers(aggregate_hourly(data)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+# # print("Predicted Total Monthly Consumption Until Now (in kWh):")
+# # print(predict_total_monthly_consumption_until_now(data))
+
+# # print("\nPercentage Difference from Yesterday to Today:")
+# # print(get_percentage_difference(data))
+
+# # print("\nTotal Consumption Today (in kWh):")
+# # print(get_total_consumption_today(data))
+
+# # print("\nTotal Consumption This Month (in kWh):")
+# # print(get_total_consumption_this_month(data))
+
+# # print("\nAverage Consumption Per Hour:")
+# # print(get_average_consumption_per_hour(data))
+
+# # print("\nDaily Average Consumption for Last Week:")
+# # print(get_daily_average_consumption_for_last_week(data))
+
+# # print("\nMonthly Energy Consumption (Percentage):")
+# # print(get_monthly_energy_consumption(data))
+
+# # print("\nAggregated Hourly Data:")
+# # print(aggregate_hourly(data).head())
+
+# # print("\nOutliers:")
+# # print(calculate_outliers(aggregate_hourly(data)))

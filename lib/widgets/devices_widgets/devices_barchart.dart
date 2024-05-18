@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:seniorproject/models/energy_data.dart';
+import 'package:seniorproject/providers.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-class Last7DaysDailyAverage extends ConsumerWidget {
-  final AsyncValue<EnergyData> data;
+class DeviceLast7DaysDailyAverage extends ConsumerWidget {
+  final AsyncValue<Device> data;
 
-  const Last7DaysDailyAverage({
+  const DeviceLast7DaysDailyAverage({
     super.key,
     required this.data,
   });

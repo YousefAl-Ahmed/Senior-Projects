@@ -1,20 +1,28 @@
-//dummy main page
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:seniorproject/providers.dart';
 import 'package:seniorproject/screens/devices/device_1.dart';
-import 'package:seniorproject/services/device_on_off.dart';
+import 'package:seniorproject/screens/devices/device_2.dart';
+import 'package:seniorproject/screens/devices/device_3.dart';
+import 'package:seniorproject/screens/devices/device_4.dart';
 import 'package:seniorproject/widgets/alerts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:seniorproject/widgets/device_button.dart';
+import 'package:seniorproject/widgets/last_7days_daily_average.dart';
+import 'package:seniorproject/widgets/line_graph.dart';
+import 'package:seniorproject/widgets/pie_chart.dart';
 
 import '../widgets/dashboard_grid.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    //media query
+  Widget build(BuildContext context, WidgetRef ref) {
     final mediaQuery = MediaQuery.of(context);
     final width = mediaQuery.size.width;
+    final totalEnergyData = ref.watch(energyDataProvider);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xff172E3C),
@@ -39,27 +47,27 @@ class DashboardScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Row(
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Device1()),
-                    );
-                  },
-                  child: const Text('Device 1'),
-                ),
+                DeviceButton(label: 'Device 1', destination: Device1()),
+                DeviceButton(label: 'Device 2', destination: Device2()),
+                DeviceButton(label: 'Device 3', destination: Device3()),
+                DeviceButton(label: 'Device 4', destination: Device4()),
               ],
             ),
-            const Expanded(
+            Expanded(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  DashboardGrid(),
+                  DashboardGrid(
+                    barChart: Last7DaysDailyAverage(data: totalEnergyData),
+                    lineGraph: LastSixHoursChart(data: totalEnergyData),
+                    pieChart: MonthlyConsumptionPieChart(data: totalEnergyData),
+                  ),
                   Alerts(),
                 ],
               ),
